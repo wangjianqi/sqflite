@@ -9,12 +9,15 @@ class ItemWidget extends StatefulWidget {
   final String summary;
 
   final Item item;
+  ///function
   final Function onTap; // = Function(MainItem item);
 
   @override
   _ItemWidgetState createState() => _ItemWidgetState();
 }
 
+
+///widget
 class _ItemWidgetState extends State<ItemWidget> {
   @override
   Widget build(BuildContext context) {

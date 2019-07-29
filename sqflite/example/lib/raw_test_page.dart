@@ -16,18 +16,22 @@ class RawTestPage extends TestPage {
       String path = await initDeleteDb("raw_simple.db");
       Database db = await openDatabase(path);
       try {
+        ///创建表
         await db
             .execute("CREATE TABLE Test (id INTEGER PRIMARY KEY, name TEXT)");
         expect(
+          ///插入
             await db.rawInsert("INSERT INTO Test (name) VALUES (?)", ['test']),
             1);
 
+        ///查询
         var result = await db.query("Test");
         List expected = [
           {'id': 1, 'name': 'test'}
         ];
         expect(result, expected);
       } finally {
+        ///关闭
         await db?.close();
       }
     });
@@ -45,11 +49,14 @@ class RawTestPage extends TestPage {
       String path = await initDeleteDb("raw_query_format.db");
       Database db = await openDatabase(path);
       try {
+        ///一批
         Batch batch = db.batch();
 
         batch.execute("CREATE TABLE Test (id INTEGER PRIMARY KEY, name TEXT)");
+        ///插入
         batch.rawInsert("INSERT INTO Test (name) VALUES (?)", ["item 1"]);
         batch.rawInsert("INSERT INTO Test (name) VALUES (?)", ["item 2"]);
+        ///提交
         await batch.commit();
 
         // ignore: deprecated_member_use, deprecated_member_use_from_same_package
@@ -69,6 +76,7 @@ class RawTestPage extends TestPage {
         // empty
         sql = "SELECT id, name FROM Test WHERE id=1234";
         // ignore: deprecated_member_use
+        ///test
         result = await db.devInvokeSqlMethod("query", sql);
         expected = [];
         print("result as map list $result");
@@ -385,6 +393,7 @@ class RawTestPage extends TestPage {
       }
     });
 
+    ///clean
     test("Demo clean", () async {
       // Get a location
       var databasesPath = await getDatabasesPath();
@@ -399,6 +408,7 @@ class RawTestPage extends TestPage {
       String path = join(databasesPath, "demo.db");
 
       // Delete the database
+      ///删除数据库
       await deleteDatabase(path);
 
       // open the database

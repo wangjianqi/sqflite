@@ -10,6 +10,7 @@ class SlowTestPage extends TestPage {
       String path = await initDeleteDb("slow_txn_100_insert.db");
       Database db = await openDatabase(path);
       await db.execute("CREATE TABLE Test (id INTEGER PRIMARY KEY, name TEXT)");
+      ///插入
       await db.transaction((txn) async {
         for (int i = 0; i < 100; i++) {
           await txn
@@ -24,6 +25,7 @@ class SlowTestPage extends TestPage {
       Database db = await openDatabase(path);
       await db.execute("CREATE TABLE Test (id INTEGER PRIMARY KEY, name TEXT)");
       for (int i = 0; i < 1000; i++) {
+        ///插入
         await db.rawInsert("INSERT INTO Test (name) VALUES (?)", ["item $i"]);
       }
       await db.close();
@@ -137,6 +139,7 @@ class SlowTestPage extends TestPage {
         await txn.rawInsert("INSERT INTO Test (name) VALUES (?)", ["item $i"]);
       }
     });
+    ///消耗时间
     print("1000 insert ${sw.elapsed}");
     await db.close();
   }

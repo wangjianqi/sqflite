@@ -12,6 +12,7 @@ Future<String> initDeleteDb(String dbName) async {
 
   // make sure the folder exists
   if (await Directory(dirname(path)).exists()) {
+    ///如果已经存在删除
     await deleteDatabase(path);
   } else {
     try {

@@ -4,7 +4,10 @@ import 'package:sqflite/sqflite.dart';
 
 import 'test_page.dart';
 
+///表名字
 final String tableTodo = "todo";
+
+///
 final String columnId = "_id";
 final String columnTitle = "title";
 final String columnDone = "done";
@@ -27,6 +30,7 @@ class Todo {
       columnTitle: title,
       columnDone: done == true ? 1 : 0
     };
+    ///主键
     if (id != null) {
       map[columnId] = id;
     }
@@ -37,6 +41,7 @@ class Todo {
 class TodoProvider {
   Database db;
 
+  ///创建
   Future open(String path) async {
     db = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
@@ -49,11 +54,13 @@ create table $tableTodo (
     });
   }
 
+  ///插入
   Future<Todo> insert(Todo todo) async {
     todo.id = await db.insert(tableTodo, todo.toMap());
     return todo;
   }
 
+  ///查询(一条数据)
   Future<Todo> getTodo(int id) async {
     List<Map> maps = await db.query(tableTodo,
         columns: [columnId, columnDone, columnTitle],
@@ -65,10 +72,12 @@ create table $tableTodo (
     return null;
   }
 
+  ///删除
   Future<int> delete(int id) async {
     return await db.delete(tableTodo, where: "$columnId = ?", whereArgs: [id]);
   }
 
+  ///改
   Future<int> update(Todo todo) async {
     return await db.update(tableTodo, todo.toMap(),
         where: "$columnId = ?", whereArgs: [todo.id]);
@@ -95,6 +104,7 @@ class TodoTestPage extends TestPage {
       TodoProvider todoProvider = TodoProvider();
       await todoProvider.open(path);
 
+      ///插入一条数据
       Todo todo = Todo()..title = "test";
       await todoProvider.insert(todo);
       expect(todo.id, 1);
@@ -116,6 +126,7 @@ class TodoTestPage extends TestPage {
       expect(await todoProvider.delete(1), 1);
       expect(await todoProvider.getTodo(1), null);
 
+      ///关闭
       await todoProvider.close();
       //await Sqflite.setDebugModeOn(false);
     });

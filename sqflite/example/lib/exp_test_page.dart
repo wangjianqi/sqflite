@@ -22,6 +22,7 @@ class ExpTestPage extends TestPage {
       String path = await initDeleteDb("order_by_exp.db");
       Database db = await openDatabase(path);
 
+      ///表名字
       String table = "test";
       await db
           .execute("CREATE TABLE $table (column_1 INTEGER, column_2 INTEGER)");
@@ -39,6 +40,7 @@ class ExpTestPage extends TestPage {
         {"column_1": 11, "column_2": 180}
       ];
 
+      ///升序和降序
       var result = await db.rawQuery(
           "SELECT * FROM $table ORDER BY column_1 ASC, column_2 DESC");
       //print(JSON.encode(result));

@@ -130,6 +130,7 @@ class OpenTestPage extends TestPage {
       await db.close();
     });
 
+    ///是否打开的
     test("isOpen", () async {
       //await Sqflite.devSetDebugModeOn(true);
       String path = await initDeleteDb("is_open.db");
@@ -820,6 +821,7 @@ class OpenTestPage extends TestPage {
 }
 
 class Helper {
+  ///TODO ----
   Helper(this.path);
 
   final String path;

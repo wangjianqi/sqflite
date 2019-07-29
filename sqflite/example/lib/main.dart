@@ -41,7 +41,10 @@ const String testExpRoute = "/test/exp";
 const String testDeprecatedRoute = "/test/deprecated";
 
 class _MyAppState extends State<MyApp> {
+
+  ///routes
   var routes = <String, WidgetBuilder>{
+    ///首页面
     '/test': (BuildContext context) => MyHomePage(),
     testRawRoute: (BuildContext context) => RawTestPage(),
     testOpenRoute: (BuildContext context) => OpenTestPage(),
